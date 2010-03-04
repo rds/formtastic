@@ -1,7 +1,17 @@
 # coding: utf-8
-require File.join(File.dirname(__FILE__), *%w[formtastic i18n])
+require 'formtastic/i18n'
 
 module Formtastic #:nodoc:
+  
+  class Railtie < Rails::Railtie
+    
+    railtie_name :formtastic
+    
+    initializer 'formtastic.setup' do 
+      ActionView::Base.send(:include, Formtastic::SemanticFormHelper)
+    end
+    
+  end if defined?(Rails)
 
   class SemanticFormBuilder < ActionView::Helpers::FormBuilder
 
