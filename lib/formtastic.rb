@@ -1701,8 +1701,11 @@ module Formtastic #:nodoc:
   #     ...
   #   <% end %>
   module SemanticFormHelper
+    
     @@builder = ::Formtastic::SemanticFormBuilder
-    mattr_accessor :builder
+    @@default_form_class = 'formtastic'
+    
+    mattr_accessor :builder, :default_form_class
 
     @@default_field_error_proc = nil
 
@@ -1730,7 +1733,7 @@ module Formtastic #:nodoc:
           options[:html] ||= {}
 
           class_names = options[:html][:class] ? options[:html][:class].split(" ") : []
-          class_names << "formtastic"
+          class_names << @@default_form_class
           class_names << case record_or_name_or_array
             when String, Symbol then record_or_name_or_array.to_s               # :post => "post"
             when Array then ActionController::RecordIdentifier.singular_class_name(record_or_name_or_array.last.class)  # [@post, @comment] # => "comment"
